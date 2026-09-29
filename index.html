@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#344957"><title>台灣虎航航班時刻表</title><link rel="stylesheet" href="style.css"></head>
+<body>
+  <header class="hero"><h1>台灣虎航航班時刻表</h1><p>點選各欄位的條件即可篩選；每個欄位都可以同時選擇多個條件。</p></header>
+  <main class="wrap">
+    <section id="filters" class="filters" aria-label="航班篩選條件"></section>
+    <div class="actions"><button id="clear" type="button">清除全部篩選</button><span id="count" aria-live="polite"></span></div>
+    <div class="table-box"><table><thead><tr><th>抵達國家</th><th>航班</th><th>起飛地點</th><th>抵達地點</th><th>起飛時間</th><th>抵達時間</th><th>適合出發星期</th><th>適合出發日期</th></tr></thead><tbody id="results"></tbody></table></div>
+    <footer><span id="updated"></span>；完整原始整理請參考 <a href="flight-schedule.md">flight-schedule.md</a>。資料來源：<a href="https://www.tigerairtw.com/zh-TW/ready-to-go/flight-schedule" target="_blank" rel="noreferrer">台灣虎航官方班機時刻表</a>。</footer>
+  </main>
+  <script src="flights-data.js"></script><script src="app.js"></script>
+</body>
+</html>
