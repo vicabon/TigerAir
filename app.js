@@ -2,7 +2,7 @@
   const flights = window.TIGERAIR_DATA.flights;
   const fields = [
     ["country", "抵達國家"], ["origin", "起飛地點"], ["destination", "抵達地點"],
-    ["departureTime", "起飛時間"], ["arrivalTime", "抵達時間"], ["operationDateSummary", "適合出發日期"]
+    ["departureTime", "起飛時間"]
   ];
   const labels = { country: "country", origin: "originName", destination: "destinationName" };
   const key = v => v;
@@ -14,10 +14,16 @@
     const box = document.createElement("div"); box.className = "filter";
     const label = document.createElement("label"); label.textContent = `${title}（可複選）`; label.htmlFor = `filter-${field}`;
     const choices = document.createElement("div"); choices.className = "choices"; choices.id = `filter-${field}`; choices.dataset.field = field;
-    values.forEach((v, index) => { const item = document.createElement("label"); item.className = "choice"; const input = document.createElement("input"); input.type = "checkbox"; input.value = key(v); input.dataset.field = field; input.id = `filter-${field}-${index}`; input.addEventListener("change", render); const text = document.createElement("span"); text.textContent = display(field, v, flights.find(row => (Array.isArray(value(field,row)) ? value(field,row) : [value(field,row)]).includes(v))); item.append(input, text); choices.append(item); });
+    values.forEach((v, index) => { const item = document.createElement("label"); item.className = "choice"; const input = document.createElement("input"); input.type = "checkbox"; input.value = key(v); input.dataset.field = field; input.id = `filter-${field}-${index}`; input.checked = isDefaultSelected(field, v); input.addEventListener("change", render); const text = document.createElement("span"); text.textContent = display(field, v, flights.find(row => (Array.isArray(value(field,row)) ? value(field,row) : [value(field,row)]).includes(v))); item.append(input, text); choices.append(item); });
     box.append(label, choices); filters.append(box);
   });
   const tbody = document.querySelector("#results");
+  function isDefaultSelected(field, val) {
+    if (field === "country" || field === "destination") return true;
+    if (field === "origin") return ["KHH", "TPE"].includes(String(val));
+    if (field === "departureTime") return String(val) >= "08:30" && String(val) <= "19:00";
+    return false;
+  }
   function render() {
     const selected = Object.fromEntries(fields.map(([field]) => [field, [...document.querySelectorAll(`input[data-field="${field}"]:checked`)].map(input => input.value)]));
     const result = flights.filter(row => fields.every(([field]) => !selected[field].length || (Array.isArray(value(field,row)) ? value(field,row).some(v => selected[field].includes(String(v))) : selected[field].includes(String(value(field,row))))));
